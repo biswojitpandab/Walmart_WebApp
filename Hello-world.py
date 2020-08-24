@@ -1,5 +1,5 @@
 # Using flask to make an api 
-# import necessary libraries and functions 
+
 from flask import Flask, jsonify, request 
 from flask_healthz import healthz
 
@@ -14,9 +14,8 @@ app.register_blueprint(healthz, url_prefix="/healthz")
 # wrap the flask app and give a heathcheck url
 health = HealthCheck(app, "/healthcheck")
   
-# on the terminal type: curl http://127.0.0.1:5000/ 
+# on the terminal type: curl http://127.0.0.1:8080/ 
 # returns hello world when we use GET. 
-# returns the data that we send when we use POST. 
 @app.route('/', methods = ['GET', 'POST']) 
 def home(): 
     if(request.method == 'GET'): 
@@ -25,22 +24,11 @@ def home():
         #return jsonify({'data': data}) 
         return data 
 
-# This is how you register a controller, it accepts OPTIONS and GET methods by default
-# @root_blueprint.route('/health/')
-#def healthz():
-    #return {'message': 'Healthy'}  # This will return as JSON by default with a 200 status code
-
-
-def redis_available():
+def site_available():
     return True, "UP"
 
-health.add_check(redis_available)
-app.add_url_rule("/healthcheck", "healthcheck", view_func=lambda: health.run())
-#app.add_url_rule("/healthcheck", "healthcheck", health.run())
-
-
-
-
+health.add_check(site_available)
+app.add_url_rule("/healthcheck", "healthcheck", health.run())
 
 # driver function 
 if __name__ == '__main__': 

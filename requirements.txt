@@ -3,3 +3,4 @@ Flask-Healthcheck ~= 0.1
 Flask-RESTful ~= 0.3
 requests ~= 2.23
 flask-healthz ~= 0.0.1
+py-healthcheck ~= 1.10.1
